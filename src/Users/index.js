@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from './axios'
 import {BrowserRouter as Router,Route, Link} from 'react-router-dom'
-import Posts from './Posts'
+import Posts from '../Todos/Posts'
 import Button from 'react-bootstrap/Button'
 
 export default class User extends React.Component{

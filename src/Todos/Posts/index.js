@@ -24,9 +24,9 @@ export default class Posts extends React.Component {
                 <ul>
                     {this.state.post.map((post) => (
                         <li key={post.id}>
-                            Id: {post.postId}
+                            Id: {post.id}
                             <div>
-                            Title:{post.name}
+                            Title:{post.title}
                             </div>
                             <div>
                             body:{post.body}
