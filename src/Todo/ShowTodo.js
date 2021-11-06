@@ -7,12 +7,12 @@ const Todolist = ({todolist,handleDelete,handleUpdate,handleDone})=>{
         
         <div>
             <h1>Todo list</h1>
-            {todolist.map((todo,index)=>
-             <p key={index}>Title:-
-             {todo.title}&nbsp; Description:- {todo.description}&nbsp;
-             <Button varient="Danger" onClick={() =>handleDelete(index)}>Delete</Button>&nbsp;&nbsp;
-             <Button onClick={()=>handleUpdate(index)}>Update</Button>&nbsp;
-             <input type="checkbox" onChange={()=>handleDone(index)}/>
+            {todolist.map((todo)=> 
+             <p key={todo.id}>Title:-
+             {todo.title.title}&nbsp; Description:- {todo.title.description}&nbsp;
+             <Button varient="Danger" onClick={() =>handleDelete(todo.id)}>Delete</Button>&nbsp;&nbsp;
+             <Button onClick={()=>handleUpdate(todo.id)}>Update</Button>&nbsp;
+             <input type="checkbox" onChange={()=>handleDone(todo.id)}/>
             </p>)}
         </div>
         
