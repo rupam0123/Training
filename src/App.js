@@ -1,20 +1,18 @@
 import React,{Component} from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-<<<<<<< HEAD
-import User from './Users';
+
+import Users from './Users';
 import Todos from './Todos';
 import Comment from './Comment';
+import NewUser from './NewUser'
 import {BrowserRouter as Router,Route, Link} from 'react-router-dom' 
 
-=======
-import Todo from './Todo';
->>>>>>> 9d30f70210b3cca13ed87d2733c50e9c220a17db
 class App extends Component{
   
   render(){
     return (
-<<<<<<< HEAD
+
       <Router>
         <div>
         <Link to="/">User</Link>
@@ -25,16 +23,18 @@ class App extends Component{
         <div>
         <Link to="/comments">Comment</Link>
         </div>
+        <div>
+        <Link to="/newuser">NewUser</Link>
+        </div>
         
       <div className="App">
-        <Route exact path="/"component={User}/>
+        <Route exact path="/"component={Users}/>
         <Route path="/todos"component={Todos}/>
         <Route path="/Comments"component={Comment}/>
+        <Route path="/newuser"component={NewUser}/>
        </div>
         </Router>
-=======
-        <Todo/>
->>>>>>> 9d30f70210b3cca13ed87d2733c50e9c220a17db
+      
     )
   }
 }
