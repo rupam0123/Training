@@ -22,7 +22,7 @@ export default class Users extends React.Component {
     this.setState({ selectedUserId: userId });
   }
 
-  render() {
+  render () {
     if (!this.state.users) return "Loading";
 
     return (

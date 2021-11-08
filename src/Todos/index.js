@@ -35,8 +35,7 @@ export default class User extends React.Component {
                         </li>
 
                     ))}
-
-                </ul>
+                 </ul>
             </div>
 
         );

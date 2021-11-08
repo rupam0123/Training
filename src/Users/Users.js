@@ -25,17 +25,11 @@ export default function User (props) {
     setUser(response.data);
     props.requestUsers();
   };
-  const requestForNewUser = async (user) => {
-    const response = await axios.post(`/users/${user.id}`, { ...user });
-    setUser(response.data);
-    props.requestUsers();
-  };
 
 
   const handleSubmit = (event) => {
     event.preventDefault();
     requestUpdateUser(user);
-    requestForNewUser(user);
   }
 
   if (!props.selectedUserId) return "No Data Display";
@@ -49,7 +43,6 @@ export default function User (props) {
         <li><input name="name" value={user.name} onChange={handleChangeName} /></li>
         <li>{user.email}</li>
         <li>{user.phone}</li>
-        <li><button type="submit">Update</button></li>
         <li><button type="submit">Submit</button></li>
       </ul>
       </form>
