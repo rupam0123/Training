@@ -2,12 +2,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from './axios';
 
-export default function User (props) {
+export default function Posts (props) {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
     const requestUser = async (userId) => {
-      const response = await axios.get(`/todos/${userId}`);
+      const response = await axios.get(`/posts/${userId}`);
       setUser(response.data);
     };
     if (!props.selectedUserId) return;
@@ -22,9 +22,9 @@ export default function User (props) {
     <div>
       
       <ul>
-        <li>{user.id}</li>
+        <li>{user.userId}</li>
         <li>title:{user.title}</li>
-        <li>complete:{user.complete}</li>
+        <li>body:{user.body}</li>
       </ul>
       
     </div>

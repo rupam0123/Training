@@ -1,13 +1,13 @@
+import Button from '@restart/ui/esm/Button';
 import React from 'react';
 import axios from './axios';
+import Posts from './Posts';
 import User from './Users';
-import { Button } from 'react-bootstrap'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
-import NewUser from '../NewUser';
-import Posts from '../Todos';
 
 export default class Users extends React.Component {
-  state = { selectedUserId: null }
+  state = { selectedUserId: null, 
+           posts:true,
+           todos:true }
 
   requestUsers = async () => {
     const response = await axios.get('/users');
@@ -24,6 +24,12 @@ export default class Users extends React.Component {
 
   render () {
     if (!this.state.users) return "Loading";
+    if(!this.state.posts){
+      return <Posts selectedUserId={this.state.selectedUserId} />
+    }
+    if(!this.state.todos){
+      return <User selectedUserId={this.state.selectedUserId} />
+    }
 
     return (
       <div>
@@ -31,32 +37,15 @@ export default class Users extends React.Component {
           {this.state.users.map((user) => (
             <li key={user.id} onClick={() => this.onClickUser(user.id)}>
               {user.name}
+              <div>
+              <Button type ="button"onClick={() => this.setState({todos:false}) }>Todo</Button>&nbsp;
+              <Button type ="button"onClick={() => this.setState({posts:false})}  >Post</Button>
+              </div>
             </li>
+            
           ))}
         </ul>
-        <User requestUsers={this.requestUsers} selectedUserId={this.state.selectedUserId} />
-        <Router>
-          <div>
-            <Link to="/newuser">
-              <Button type="button">
-                NewUser
-              </Button>
-            </Link>
-          </div>
-          <div>
-            <Link to="/Posts">
-              <Button type="button">
-                Posts
-              </Button>
-            </Link>
-          </div>
-          <div className="App">
-            <Route exact path="/newuser" component={NewUser} />
-            <Route exact path="/Posts" component={Posts} />
-
-          </div>
-        </Router>
-
+        
       </div>
     );
   }
