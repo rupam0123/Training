@@ -34,6 +34,7 @@ export default function EditUser (props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     requestUpdateUser(user);
+    props.handleClose();
   }
 
   if (!props.selectedUserId) return "No Data Display";
@@ -47,18 +48,20 @@ export default function EditUser (props) {
           <Modal.Title>Edit User</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+        <form onSubmit={handleSubmit}>
         <ul>
         <li>{user.id}</li>
         <li><input name="name" value={user.name} onChange={handleChange} /></li>
         <li><input name="name" value={user.email} onChange={handleChange}/></li>
         <li><input name="name" value={user.phone} onChange={handleChange}/></li>
         </ul>
+        </form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={props.handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleSubmit}>
+          <Button variant="primary" type="submit" onClick={handleSubmit}>
             Save Changes
           </Button>
         </Modal.Footer>
