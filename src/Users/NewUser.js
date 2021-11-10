@@ -18,7 +18,7 @@ class NewUser extends Component {
        
      submitHandler = (event) =>{
          event.preventDefault()
-         axios.post("http://localhost:3008/posts",this.state)
+         axios.post("http://localhost:3008/users",this.state)
          .then(response =>{
              console.log(response)
          })

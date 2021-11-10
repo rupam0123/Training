@@ -7,7 +7,7 @@ export default function User (props) {
 
   useEffect(() => {
     const requestUser = async (userId) => {
-      const response = await axios.get(`/todos/${userId}`);
+      const response = await axios.get(`/users/${userId}/todos`);
       setUser(response.data);
     };
     if (!props.selectedUserId) return;
@@ -20,11 +20,25 @@ export default function User (props) {
 
   return (
     <div>
-      
+      <h1>Todos</h1>
       <ul>
-        <li>{user.id}</li>
-        <li>title:{user.title}</li>
-        <li>complete:{user.complete}</li>
+      {user.map((user) => (
+            <li key={user.userId}>
+              <div>
+              userId:{user.userId}
+              </div>
+              <div>
+              id:{user.id}
+              </div>
+              <div>
+              title:{user.title}
+              </div>
+              <div>
+              Complete{user.completed}
+              </div>
+              </li>
+      ))}
+
       </ul>
       
     </div>
