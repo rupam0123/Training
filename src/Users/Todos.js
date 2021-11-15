@@ -2,17 +2,18 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from './axios';
-import {setUser, todo} from '../actions'
+import {setUser} from '../actions'  
  export default function User (props) {
-  const dispatch = useDispatch();
   const users = useSelector((state) => state.users);
-  console.log(users);
+  const dispatch = useDispatch();
+  
 
   useEffect(() => {
     const requestUser = async (userId) => {
       const response = await axios.get(`/users/${userId}/todos`);
       const setUserAction = setUser(response.data);
       dispatch(setUserAction)
+      console.log(setUserAction);
     };
     if (!users.selectedUserId) return;
     requestUser(users.selectedUserId);
@@ -20,13 +21,13 @@ import {setUser, todo} from '../actions'
   }, [users.selectedUserId,dispatch]);
   
   if (!props.selectedUserId) return "No Data Display";
-  if (props.selectedUserId && !props.users) return "Loading";
+  if (props.selectedUserId && !users) return "Loading";
 
   return (
     <div>
       <h1>Todos</h1>
       <ul>
-      {props.users.map((user) => (
+      {users.map((user) => (
             <li key={user.userId}>
               <div>
               userId:{user.userId}
