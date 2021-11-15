@@ -61,7 +61,7 @@ export default function EditUser (props) {
           <Button variant="secondary" onClick={props.handleClose}>
             Close
           </Button>
-          <Button variant="primary" type="submit" onClick={handleSubmit}>
+          <Button variant="primary" type="submit" onClick={handleSubmit }>
             Save Changes
           </Button>
         </Modal.Footer>

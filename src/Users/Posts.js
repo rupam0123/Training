@@ -29,7 +29,7 @@ export default function Posts (props) {
   if(!comments){
       return <Comments selectedUserId={props.selectedUserId}/>
   }
-
+ 
   return (
     <div>
       <h1>Post</h1>

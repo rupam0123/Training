@@ -1,12 +1,14 @@
 import Button from '@restart/ui/esm/Button';
 import React from 'react';
+import { connect } from 'react-redux';
+import { setUsers, setSelectedUserId } from '../actions';
 import axios from './axios';
 import Posts from './Posts';
 import User from './Todos';
 import NewUser from './NewUser';
-import EditUser from './EditUser'
+import EditUser from './EditUser';
 
-export default class Users extends React.Component {
+ class Users extends React.Component {
   state = { selectedUserId: null, 
            posts:true,
            todos:true,
@@ -70,3 +72,15 @@ export default class Users extends React.Component {
     );
   }
 }
+const mapStateToProps = state => ({
+  users: state.users,
+});
+
+const mapDispatchToProps = {
+  setUsers,
+  setSelectedUserId,
+};
+
+const UsersConnectedWithRedux = connect(mapStateToProps, mapDispatchToProps)(Users);
+
+export default UsersConnectedWithRedux; 
