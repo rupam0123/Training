@@ -44,10 +44,7 @@ class Users extends React.Component {
           ))}
         </ul>
         <Button type="button" onClick={(EditUser)}>New User</Button>
-        <EditUser requestUsers={this.requestUsers} 
-          selectedUserId={this.props.selectedUserId} 
-          show={this.state.show} 
-          handleClose={this.closeModal} />
+       
       </div>
       
     );
