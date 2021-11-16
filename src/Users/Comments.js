@@ -1,49 +1,70 @@
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import axios from './axios';
+import { setComments} from '../actions';
+import { connect } from 'react-redux';
 
-export default function Comments (props) {
-  const [user, setUser] = useState(null);
+class Todos extends React.Component {
+  requestUser = async () => {
+    const { postid } = this.props.match.params
+    const response = await axios.get(`/posts/${postid}/comments`);
+    console.log(response.data)
+    this.props.setComments(response.data);
 
-  useEffect(() => {
-    const requestUser = async (postId) => {
-      const response = await axios.get(`/posts/${postId}/comments`);
-      setUser(response.data);
-    };
-    if (!props.selectedUserId) return;
-    requestUser(props.selectedUserId);
 
-  }, [props.selectedUserId]);
-  
-  if (!props.selectedUserId) return "No Data Display";
-  if (props.selectedUserId && !user) return "Loading";
+  }
 
-  return (
-    <div>
-      <h1>Comments</h1>
-      <ul>
-      {user.map((user) => (
-            <li key={user.postId}>
+  componentDidMount() {
+
+    this.requestUser();
+
+  }
+
+
+  render() {
+    const { comments } = this.props
+    if (!comments) return "Loading";
+
+
+    return (
+
+      <div>
+        <h1>Comments</h1>
+        <ul>
+          {comments.map((user) => (
+            <li key={user.userId}>
               <div>
-              postId:{user.postId}
+                postId:{user.postId}
               </div>
               <div>
-              id:{user.id}
+                id:{user.id}
               </div>
               <div>
-              name:{user.name}
+                Name:{user.name}
               </div>
               <div>
-              email{user.email}
+                Email{user.email}
               </div>
               <div>
-              body{user.body}
+                Body :{user.body}
               </div>
-              </li>
-      ))}
+            </li>
+          ))}
 
-      </ul>
-      
-    </div>
-  );
+        </ul>
+
+      </div>
+    );
+  }
 }
+const mapStateToProps = state => ({
+  comments: state.commentReducer.comments,
+});
+
+const mapDispatchToProps = {
+  setComments,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Todos);
+
+

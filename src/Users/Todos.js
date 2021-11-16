@@ -1,51 +1,67 @@
 
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
 import axios from './axios';
-import {setUser} from '../actions'  
- export default function User (props) {
-  const users = useSelector((state) => state.users);
-  const dispatch = useDispatch();
-  
+import { setTodo} from '../actions';
+import { connect } from 'react-redux';
 
-  useEffect(() => {
-    const requestUser = async (userId) => {
-      const response = await axios.get(`/users/${userId}/todos`);
-      const setUserAction = setUser(response.data);
-      dispatch(setUserAction)
-      console.log(setUserAction);
-    };
-    if (!users.selectedUserId) return;
-    requestUser(users.selectedUserId);
+class Todos extends React.Component {
+  requestUser = async () => {
+    const { userid } = this.props.match.params
+    const response = await axios.get(`/users/${userid}/todos`);
+    console.log(response.data)
+    this.props.setTodo(response.data);
 
-  }, [users.selectedUserId,dispatch]);
-  
-  if (!props.selectedUserId) return "No Data Display";
-  if (props.selectedUserId && !users) return "Loading";
 
-  return (
-    <div>
-      <h1>Todos</h1>
-      <ul>
-      {users.map((user) => (
+  }
+
+  componentDidMount() {
+
+    this.requestUser();
+
+  }
+
+
+  render() {
+    const { todos } = this.props
+    if (!todos) return "Loading";
+
+
+    return (
+
+      <div>
+        <h1>Todos</h1>
+        <ul>
+          {todos.map((user) => (
             <li key={user.userId}>
               <div>
-              userId:{user.userId}
+                userId:{user.userId}
               </div>
               <div>
-              id:{user.id}
+                id:{user.id}
               </div>
               <div>
-              title:{user.title}
+                title:{user.title}
               </div>
               <div>
-              Complete{user.completed}
+                Complete{user.completed}
               </div>
-              </li>
-      ))}
+            </li>
+          ))}
 
-      </ul>
-      
-    </div>
-  );
+        </ul>
+
+      </div>
+    );
+  }
 }
+const mapStateToProps = state => ({
+  todos: state.todoReducer.todos,
+});
+
+const mapDispatchToProps = {
+  setTodo,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Todos);
+
+

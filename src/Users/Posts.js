@@ -1,61 +1,75 @@
 
-import Button from '@restart/ui/esm/Button';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import axios from './axios';
-import Comments from './Comments';
-
-export default function Posts (props) {
-  const [user, setUser] = useState(null);
-  const [comments,setComments] = useState(true);
-  const [selectedUserId,setSelectedUserId] =useState(null);
+import { setPosts } from '../actions';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import Button from '@restart/ui/esm/Button';
 
 
-  useEffect(() => {
-    const requestUser = async (userId) => {
-      const response = await axios.get(`/users/${userId}/posts`);
-      setUser(response.data);
-    };
-    if (!props.selectedUserId) return;
-    requestUser(props.selectedUserId);
 
-  }, [props.selectedUserId]);
-  
-  const onClickUser = (userId) => {
-    setSelectedUserId( {selectedUserId : userId });
+ class Posts extends React.Component {
+requestUser = async () => {
+    const {userid}= this.props.match.params
+    const response= await axios.get(`/users/${userid}/posts`);
+    console.log(response.data)
+    this.props.setPosts(response.data);
+
+    
   }
   
-  if (!props.selectedUserId) return "No Data Display";
-  if (props.selectedUserId && !user) return "Loading";
-  if(!comments){
-      return <Comments selectedUserId={props.selectedUserId}/>
-  }
+  componentDidMount() {
  
-  return (
-    <div>
-      <h1>Post</h1>
-      <ul>
-      {user.map((user) => (
-            <li key={user.userId} onClick={() =>{onClickUser(user.userId)} }>
+    this.requestUser();
+
+  }
+
+
+  render() {
+    const { posts } = this.props
+    if (!posts) return "Loading";
+    
+
+    return (
+
+      <div>
+        <h1>Posts</h1>
+        <ul>
+          {posts.map((user) => (
+            <li key={user.userId}>
               <div>
-              userId:{"  "}{user.userId}
+                userId:{user.userId}
               </div>
               <div>
-              id:{"  "}{user.id}
+                id:{user.id}
               </div>
               <div>
-              title:{"  "}{user.title}
+                title:{user.title}
               </div>
               <div>
-              body:{"  "}{user.body}
+                Body :{user.body}
               </div>
               <div>
-              <Button type=""  onClick={() => setComments(false) }>Comments</Button>
+              <Link to={`/${user.id}/comments`}>   <Button type ="button">Comments</Button></Link>&nbsp;&nbsp;
               </div>
-              </li>
-      ))}
-      </ul>
-      
-      
-    </div>
-  );
+            </li>
+          ))}
+
+        </ul>
+
+      </div>
+    );
+  }
 }
+const mapStateToProps = state => ({
+  posts: state.postsReducer.posts,
+});
+
+const mapDispatchToProps = {
+  setPosts,
+  
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Posts);
+
+

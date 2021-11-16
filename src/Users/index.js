@@ -3,72 +3,53 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { setUsers, setSelectedUserId } from '../actions';
 import axios from './axios';
-import Posts from './Posts';
-import User from './Todos';
-import NewUser from './NewUser';
 import EditUser from './EditUser';
+import { Link } from 'react-router-dom';
 
- class Users extends React.Component {
-  state = { selectedUserId: null, 
-           posts:true,
-           todos:true,
-           newUser:true,
-           editUser:true,
-           show:false
-           }
-   
-        
-
+class Users extends React.Component {
   requestUsers = async () => {
     const response = await axios.get('/users');
-    this.setState({ users: response.data });
+    this.props.setUsers(response.data);
   }
 
   componentDidMount() {
     this.requestUsers();
   }
   closeModal = () => {
-    this.setState({show: false});
+    this.setState({ show: false });
   }
 
   onClickUser = (userId) => {
-    this.setState({ selectedUserId: userId,show:true});
+    this.setState({ selectedUserId: userId, show: true });
   }
+  
 
-  render () {
-    if (!this.state.users) return "Loading";
-    if(!this.state.posts){
-      return <Posts selectedUserId={this.state.selectedUserId} />
-    }
-    if(!this.state.todos){
-      return <User selectedUserId={this.state.selectedUserId} />
-    }
-    if(!this.state.newUser){
-      return <NewUser/>
-    }
-    
+  render() {
+    const { records } = this.props.users;
 
     return (
       <div>
         <ul>
-          {this.state.users.map((user) => (
+          {records.map((user) => (
             <li key={user.id} onClick={() => this.onClickUser(user.id)} >
               {user.name}
               <div>
-              <Button type ="button" onClick={() => this.setState({todos:false}) }>Todo</Button>&nbsp;&nbsp;
-              <Button type ="button" onClick={() => this.setState({posts:false})}>Post</Button>&nbsp;&nbsp;
-              <Button type ="button" onClick={() => this.onClickUser(user.id)}>Edit</Button>
+                <Link to={`/${user.id}/todos`}>   <Button type="button">Todo</Button></Link>
+                &nbsp;&nbsp;
+                <Link to={`/${user.id}/posts`}>   <Button type="button">Post</Button></Link>&nbsp;&nbsp;
+                <Button type="button" onClick={() => this.onClickUser(user.id)}>Edit</Button>
               </div>
             </li>
-            
+
           ))}
         </ul>
-        <Button type ="button" onClick={()=>this.setState ({newUser:false})}>New User</Button>
+        <Button type="button" onClick={(EditUser)}>New User</Button>
         <EditUser requestUsers={this.requestUsers} 
-          selectedUserId={this.state.selectedUserId} 
+          selectedUserId={this.props.selectedUserId} 
           show={this.state.show} 
           handleClose={this.closeModal} />
       </div>
+      
     );
   }
 }
@@ -83,4 +64,4 @@ const mapDispatchToProps = {
 
 const UsersConnectedWithRedux = connect(mapStateToProps, mapDispatchToProps)(Users);
 
-export default UsersConnectedWithRedux; 
+export default UsersConnectedWithRedux;
