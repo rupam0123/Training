@@ -3,6 +3,7 @@ import axios from './axios';
 import { Modal,Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUser,setShow } from '../actions';
+import { requestUser, requestUpdateUser } from '../thunks/user';
 
 export default function EditUser (props) {
    const dispatch = useDispatch();
@@ -12,12 +13,8 @@ export default function EditUser (props) {
 
 
   useEffect(() => {
-    const requestUser = async (userId) => {
-      const response = await axios.get(`/users/${userId}`);
-      dispatch(setUser(response.data));
-    };
     if (!users.selectedUserId) return;
-    requestUser(users.selectedUserId);
+    dispatch(requestUser(users.selectedUserId));
 
   }, [users.selectedUserId, dispatch]);
   
@@ -29,16 +26,11 @@ export default function EditUser (props) {
     dispatch(setUser(nextUser));
   };
 
-  const requestUpdateUser = async (user) => {
-    const response = await axios.put(`/users/${user.id}`, { ...user });
-    setUser(response.data);
-    props.requestUser();
-  };
 
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    requestUpdateUser(users.user);
+    dispatch(requestUpdateUser(users.user));
     onClose();
   }
   const onClose = () =>{

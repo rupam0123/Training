@@ -1,22 +1,17 @@
 import Button from '@restart/ui/esm/Button';
 import React from 'react';
 import { connect } from 'react-redux';
-import { setUsers, setSelectedUserId,setShow,setNewShow } from '../actions';
-import axios from './axios';
+import { setSelectedUserId,setShow,setNewShow } from '../actions';
 import EditUser from './EditUser';
 import { Link } from 'react-router-dom';
 import NewUser from './NewUser';
+import { requestUsers } from '../thunks/user';
 
 class Users extends React.Component {
   
-  
-  requestUsers = async () => {
-    const response = await axios.get('/users');
-    this.props.setUsers(response.data);
-  }
-
+  state = {}
   componentDidMount() {
-    this.requestUsers();
+    this.props.requestUsers();
   }
   
   
@@ -66,10 +61,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  setUsers,
   setSelectedUserId,
   setShow,
   setNewShow,
+  requestUsers,
 };
 
 const UsersConnectedWithRedux = connect(mapStateToProps, mapDispatchToProps)(Users);

@@ -1,22 +1,15 @@
 
 import React from 'react';
-import axios from './axios';
-import { setComments} from '../actions';
 import { connect } from 'react-redux';
+import {requestComments} from '../thunks/comments'
+
 
 class Todos extends React.Component {
-  requestUser = async () => {
-    const { postid } = this.props.match.params
-    const response = await axios.get(`/posts/${postid}/comments`);
-    console.log(response.data)
-    this.props.setComments(response.data);
 
-
-  }
 
   componentDidMount() {
 
-    this.requestUser();
+    this.requestComments();
 
   }
 
@@ -62,7 +55,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  setComments,
+  requestComments,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Todos);

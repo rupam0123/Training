@@ -1,26 +1,17 @@
 
 import React from 'react';
-import axios from './axios';
-import { setPosts } from '../actions';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Button from '@restart/ui/esm/Button';
+import {requestPost} from '../thunks/posts'
 
 
 
  class Posts extends React.Component {
-requestUser = async () => {
-    const {userid}= this.props.match.params
-    const response= await axios.get(`/users/${userid}/posts`);
-    console.log(response.data)
-    this.props.setPosts(response.data);
-
-    
-  }
   
   componentDidMount() {
  
-    this.requestUser();
+    this.props.requestPost();
 
   }
 
@@ -66,7 +57,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  setPosts,
+  requestPost,
   
 };
 

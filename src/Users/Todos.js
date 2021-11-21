@@ -1,22 +1,14 @@
 
 import React from 'react';
-import axios from './axios';
-import { setTodo} from '../actions';
 import { connect } from 'react-redux';
+import {requestTodo} from '../thunks/todo'
+
 
 class Todos extends React.Component {
-  requestUser = async () => {
-    const { userid } = this.props.match.params
-    const response = await axios.get(`/users/${userid}/todos`);
-    console.log(response.data)
-    this.props.setTodo(response.data);
-
-
-  }
+  
 
   componentDidMount() {
-
-    this.requestUser();
+    this.props.requestTodo();
 
   }
 
@@ -59,7 +51,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  setTodo,
+  requestTodo,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Todos);
