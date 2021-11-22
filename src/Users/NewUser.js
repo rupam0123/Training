@@ -17,6 +17,7 @@ import { useSelector,useDispatch } from 'react-redux';
   const handleSubmit = (event) =>{
     event.preventDefault();
     dispatch(requestNewUsers(addUser));
+    
     closeModal();
      }
      const closeModal = () => {
