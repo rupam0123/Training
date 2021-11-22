@@ -4,7 +4,7 @@ const initialState = {
    data : { name: '',
     phone: '',
     email: '',
-    useName:'',
+    userName:'',
     }
 
   }

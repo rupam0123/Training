@@ -2,13 +2,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {requestTodo} from '../thunks/todo'
+import {setTodo} from '../actions'
 
 
 class Todos extends React.Component {
   
 
   componentDidMount() {
-    this.props.requestTodo();
+    const { userid } = this.props.match.params
+    this.props.requestTodo(userid);
 
   }
 
@@ -16,6 +18,7 @@ class Todos extends React.Component {
   render() {
     const { todos } = this.props
     if (!todos) return "Loading";
+    console.log('testing',todos)
 
 
     return (
@@ -51,6 +54,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+  setTodo,
   requestTodo,
 };
 

@@ -10,8 +10,8 @@ import {requestPost} from '../thunks/posts'
  class Posts extends React.Component {
   
   componentDidMount() {
- 
-    this.props.requestPost();
+    const { userid } = this.props.match.params
+    this.props.requestPost(userid);
 
   }
 

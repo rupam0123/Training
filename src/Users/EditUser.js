@@ -52,8 +52,8 @@ export default function EditUser (props) {
         <ul>
         <li>{users.user.id}</li>
         <li><input name="name" value={users.user.name} onChange={handleChange} /></li>
-        <li><input name="name" value={users.user.email} onChange={handleChange}/></li>
-        <li><input name="name" value={users.user.phone} onChange={handleChange}/></li>
+        <li><input name="email" value={users.user.email} onChange={handleChange}/></li>
+        <li><input name="phone" value={users.user.phone} onChange={handleChange}/></li>
         </ul>
         </form>
         </Modal.Body>

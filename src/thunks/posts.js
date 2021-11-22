@@ -5,9 +5,9 @@ const client = axios.create({
   baseURL: 'http://localhost:3008',
 });
 
-export const requestPost =() =>async (dispatch) => {
+export const requestPost =(userid) =>async (dispatch) => {
     try{
-    const { userid } = this.props.match.params
+    
     const response = await client.get(`/users/${userid}/posts`);
     console.log(response.data)
     dispatch(setPosts(response.data));

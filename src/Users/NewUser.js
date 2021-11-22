@@ -1,59 +1,57 @@
-import React, { Component } from 'react'
-import axios from 'axios'
-import { Button, FormControl } from 'react-bootstrap';
-import Form from 'react-bootstrap/Form';
-import InputLabel from 'react-bootstrap/Button';
+import { Button} from 'react-bootstrap'
 import { Modal } from 'react-bootstrap';
 import { setAdd, setNewShow } from '../actions';
-import { connect } from 'react-redux'
+import {requestNewUsers} from '../thunks/newUser'
+import { useHistory } from 'react-router';
+import { useSelector,useDispatch } from 'react-redux';
 
-class NewUser extends Component {
+ export default function NewUser (props){
+   const dispatch =useDispatch()
+  const addUser = useSelector((state)=> state.newUserReducer.data)
+  const {name,phone,email,userName} = addUser
 
-    
-     handleChange = (event) =>{
-         this.setState({[event.target.name] : event.target.value})
+  const handleChange = (event) =>{
+    dispatch(setAdd({...addUser,[event.target.name] : event.target.value}))
      }
        
-     handleSubmit = (event) =>{
-         event.preventDefault()
-         axios.post("http://localhost:3008/users",this.state)
-         .then(response =>{
-             console.log(response)
-         })
-        this.closeModal();
+  const handleSubmit = (event) =>{
+    event.preventDefault();
+    dispatch(requestNewUsers(addUser));
+    closeModal();
      }
-     closeModal = () => {
-      this.props.setNewShow(false);
+     const closeModal = () => {
+      dispatch(setNewShow(false));
     }
-    newUser = ()=>{
-      this.props.setNewShow(true)
+    const newUser = ()=>{
+      dispatch(setNewShow(true))
     }
-
-
-    render() {
-        const {name, phone, email, userName} =this.props.users;
-        return (
+    
+    return (
             <div>
                  <>
-      <Modal show={this.newUser} onHide={this.closeModal}>
+      <Modal show={newUser} onHide={closeModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Edit User</Modal.Title>
+          <Modal.Title>ADD User</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={handleSubmit}>
         <ul>
-        <li>Name:<input name="name" value={name} onChange={this.handleChange} /></li>
-        <li>phone:<input name="name" value={phone} onChange={this.handleChange}/></li>
-        <li>email:<input name="name" value={email} onChange={this.handleChange}/></li>
-        <li>userName:<input name="name" value={userName} onChange={this.handleChange}/></li>
+        <li>Name:<br/>
+          <input name="name" value={name} onChange={handleChange} /></li>
+        <li>email:<br/>
+          <input name="email" value={email} onChange={handleChange}/></li>
+        <li>phone:<br/>
+          <input name="phone" value={phone} onChange={handleChange}/></li>
+        <li>userName:<br/>
+          <input name="userName" value={userName} onChange={handleChange}/></li>
         </ul>
         </form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={this.closeModal}>
+          <Button variant="secondary" onClick={closeModal}>
             Close
           </Button>
-          <Button variant="primary" type="submit" onClick={this.handleSubmit }>
+          <Button variant="primary" type="submit" onClick={handleSubmit }>
             Save Changes
           </Button>
         </Modal.Footer>
@@ -62,18 +60,7 @@ class NewUser extends Component {
             </div>
         )
     }
-}
-
-const mapStateToProps = state => ({
-    users: state.newUserReducer,
-    newshow:state.users,
-  });
   
-  const mapDispatchToProps = {
-      setAdd,
-      setNewShow
-    };
   
-  const UsersConnectedWithRedux = connect(mapStateToProps, mapDispatchToProps)(NewUser);
   
-  export default UsersConnectedWithRedux;
+  

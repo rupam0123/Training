@@ -8,8 +8,8 @@ class Todos extends React.Component {
 
 
   componentDidMount() {
-
-    this.requestComments();
+    const { postid } = this.props.match.params
+    this.props.requestComments(postid);
 
   }
 

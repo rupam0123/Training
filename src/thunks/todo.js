@@ -6,9 +6,9 @@ const client = axios.create({
 });
 
 
-export const requestTodo =() =>async (dispatch) => {
+export const requestTodo =(userid) =>async (dispatch) => {
     try{
-    const { userid } = this.props.match.params
+    
     const response = await client.get(`/users/${userid}/todos`);
     console.log(response.data)
     dispatch(setTodo(response.data));
